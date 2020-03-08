@@ -39,6 +39,7 @@ class TwoLayerNet:
         return cross_entropy_error(y, t)
     
     # 정확도를 계산함
+    # x값은 데이터 셋 갯수만큼 들어옴, t는 정답지임 (배열 형태로 들어옴)
     def accuracy(self, x, t):
         # 현재 weight, bias 텐서값을 기준으로 신경망의 y 값을 도출
         y = self.predict(x)
@@ -47,6 +48,7 @@ class TwoLayerNet:
         t = np.argmax(t, axis=1)
         
         # y와 t의 인덱스가 같다면 (x 입력에 대해 신경망의 결과가 정답과 동일하다면), 입력값 X 개수대비 정확도를 구함
+        # 배열 갯수 대비해서 얼마나 맞추는지 측정을 함
         accuracy = np.sum(y == t) / float(x.shape[0])
         return accuracy
         

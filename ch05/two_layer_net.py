@@ -76,6 +76,7 @@ class TwoLayerNet:
     def gradient(self, x, t):
         
         # forward를 통해서 현재 손실함수 값을 lastLayer에 저장 (손실값, y값, t값이 저장됨)
+        # 순전파를 반드시 해두어야 각 계층별로 필요한 출력값들이 저장됨
         self.loss(x, t)
 
         # backward

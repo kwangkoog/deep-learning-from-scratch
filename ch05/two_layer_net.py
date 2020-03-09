@@ -94,6 +94,13 @@ class TwoLayerNet:
         # 결과 저장
         # 경사 하강법에 의해서 수치미분를 사용하지 않고
         # 현재 계층별로 저장되어 있는 국소 미분값들을 그대로 가져옴 (역전파 하면서 저장된 값들만 가져온다)
+        # affine 계층 입장에서만 weight를 구하면 됨
+        # numerical gradient 함수에서도 weight에 대해서 편미분을 항상 구해야 하는데
+        # 이 편미분에 대한 부분이 backward를 통해서 이미 계산이 이루어졌기 때문에 여기서는 가져오기만 하면 됨
+        # 이때, 장점은 affine 하나의 계층을 중심으로 weight와 bias가 동시에 계산이 되어져 있음. 그래서 계산량이 줄어드는 것임
+        # weight bias 별도로 하지 않아도 됨. 또한 affine backward 시 dW 값은 입력 x의 transpose에다가 dout만 곱하면 되는 형태라 구하기도 용이
+        # 즉, 행렬곱 연산만 해도 됨. 어차피 softmax 함수의 미분은 정답과 예측의 오차였고 이게 dout으로 뒤로 계속 전파되는 것임
+        # 결국 미분 연산이 없고 dout을 받아서 행렬곱 연산만 하고 끝남 => 미분 연산이 없어서 아주 빠르다
         grads = {}
         grads['W1'], grads['b1'] = self.layers['Affine1'].dW, self.layers['Affine1'].db
         grads['W2'], grads['b2'] = self.layers['Affine2'].dW, self.layers['Affine2'].db
